@@ -1,0 +1,33 @@
+apply plugin: 'tomcat'
+apply plugin: 'eclipse'
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-tomcat-plugin:1.2.4'
+    }
+}
+ 
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+    compile 'org.hsqldb:hsqldb:2.3.1'
+    compile 'org.apache.openjpa:openjpa-persistence-jdbc:2.3.0'
+    runtime 'jstl:jstl:1.2'
+    
+    def jsfVersion = '2.1.19'
+    compile "com.sun.faces:jsf-api:${jsfVersion}"
+    compile "com.sun.faces:jsf-impl:${jsfVersion}"
+      
+    def tomcatVersion = '7.0.53'
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+           "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+    tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
+        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+    }
+}
